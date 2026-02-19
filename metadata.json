@@ -1,0 +1,7 @@
+{
+  "name": "Stikitech B2B Portal",
+  "description": "A high-performance B2B portal for physical security and networking distribution, featuring a Gemini 3 Pro powered Solution Architect.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
