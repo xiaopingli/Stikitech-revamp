@@ -3,88 +3,59 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { SOLUTIONS, PARTNERS } from '../constants';
 import AISolutionArchitect from '../components/AISolutionArchitect';
+import LeadForm from '../components/LeadForm';
 
 const Home: React.FC = () => {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center bg-charcoal overflow-hidden">
+      <section className="relative h-[90vh] flex items-center bg-charcoal overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://picsum.photos/seed/security_tech/1920/1080?grayscale" 
-            className="w-full h-full object-cover opacity-30" 
-            alt="Security Infrastructure" 
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920" 
+            className="w-full h-full object-cover opacity-20" 
+            alt="Global Security Infrastructure" 
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="max-w-2xl">
-            <h1 className="text-6xl font-extrabold text-white leading-tight mb-6">
-              Integrated <span className="text-stikiRed">Security</span> Infrastructure
+            <h1 className="text-7xl font-extrabold text-white leading-tight mb-8">
+              Value-Added <span className="text-stikiRed">Distribution</span>
             </h1>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-              Stikitech is the premier B2B distributor for mission-critical surveillance, high-performance networking, and enterprise storage solutions.
+            <p className="text-2xl text-slate-300 mb-10 leading-relaxed font-light">
+              Unified Security Platforms & Industrial Networking for the Singapore Enterprise Market.
             </p>
-            <div className="flex space-x-4">
-              <Link to="/solutions" className="bg-stikiRed hover:bg-white hover:text-charcoal text-white px-8 py-4 rounded font-bold transition-all transform hover:-translate-y-1">
-                Explore Solutions
+            <div className="flex space-x-6">
+              <Link to="/solutions" className="bg-stikiRed hover:bg-white hover:text-charcoal text-white px-10 py-5 rounded font-bold transition-all transform hover:-translate-y-1 shadow-lg">
+                View Solutions
               </Link>
-              <Link to="/partners/genetec" className="border-2 border-white hover:bg-white hover:text-charcoal text-white px-8 py-4 rounded font-bold transition-all transform hover:-translate-y-1">
-                Partner Portal
+              <Link to="/services" className="border-2 border-white hover:bg-white hover:text-charcoal text-white px-10 py-5 rounded font-bold transition-all transform hover:-translate-y-1">
+                Technical Support
               </Link>
             </div>
+          </div>
+          <div className="hidden lg:block w-96 opacity-50 grayscale">
+             {/* Decorative security visual */}
+             <div className="border border-slate-600 p-8 rounded-full border-dashed animate-pulse">
+                <div className="border border-slate-600 p-8 rounded-full border-dashed">
+                  <div className="w-24 h-24 bg-stikiRed/20 rounded-full flex items-center justify-center text-stikiRed text-4xl">🛡️</div>
+                </div>
+             </div>
           </div>
         </div>
       </section>
 
       {/* Partner Strip */}
-      <section className="bg-white py-12 border-b">
+      <section className="bg-white py-16 border-b">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap justify-center items-center gap-12 grayscale hover:grayscale-0 transition-all">
+          <div className="flex flex-wrap justify-center items-center gap-20">
             {PARTNERS.map(p => (
-              <div key={p.name} className="flex flex-col items-center">
-                <span className="text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">{p.name}</span>
-                <div className="h-12 w-32 bg-slate-100 rounded flex items-center justify-center font-bold text-slate-300">LOGO</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bento Solutions Grid */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Enterprise Distribution Grid</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto">Discover our modular ecosystem of security technologies designed for seamless interoperability.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {SOLUTIONS.map((sol, idx) => (
-              <div 
-                key={sol.id} 
-                className={`group relative overflow-hidden rounded-xl bg-white shadow-sm border transition-all hover:shadow-xl ${
-                  idx === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                }`}
-              >
-                <div className="h-full flex flex-col">
-                  <div className="relative h-48 overflow-hidden">
-                    <img src={sol.image} alt={sol.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute top-4 left-4 bg-stikiRed text-white px-3 py-1 text-xs font-bold rounded uppercase">
-                      {sol.category}
-                    </div>
-                  </div>
-                  <div className="p-8 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-4xl mb-4 block">{sol.icon}</span>
-                      <h3 className="text-2xl font-bold mb-3">{sol.title}</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-6">{sol.description}</p>
-                    </div>
-                    <Link to="/solutions" className="text-stikiRed font-bold flex items-center text-sm group-hover:translate-x-2 transition-transform">
-                      Technical Specs <span className="ml-2">→</span>
-                    </Link>
-                  </div>
+              <div key={p.name} className="flex flex-col items-center group cursor-default">
+                <span className="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-[0.3em] group-hover:text-stikiRed transition-colors">{p.tier}</span>
+                <div className="text-3xl font-black text-slate-200 group-hover:text-charcoal transition-colors tracking-tighter">
+                  {p.name.toUpperCase()}
                 </div>
               </div>
             ))}
@@ -92,24 +63,43 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* AI Architect Section */}
+      {/* AI Architect + Lead Capture */}
+      <section className="py-32 bg-slate-50 relative">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="grid lg:grid-cols-2 gap-20 items-start">
+              <div>
+                 <h2 className="text-5xl font-bold mb-8 leading-tight">Expert Engineering <span className="text-stikiRed">Built-In.</span></h2>
+                 <p className="text-xl text-slate-600 mb-12 leading-relaxed">
+                    Don't guess your storage requirements or bandwidth limits. Use our AI Solution Architect or connect directly with a Tier-3 Support Specialist.
+                 </p>
+                 <AISolutionArchitect />
+              </div>
+              <div className="lg:sticky lg:top-32">
+                 <LeadForm />
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* Featured Solutions (Quick Grid) */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-5xl font-bold mb-8 leading-tight">Empower Your Next Deployment with <span className="text-stikiRed">Intelligence.</span></h2>
-            <p className="text-lg text-slate-600 mb-8">
-              Navigating complex IP security ecosystems requires precision. Our Solution Architect uses Gemini 3 Pro to analyze your specific site needs and generate a vetted Bill of Materials.
-            </p>
-            <ul className="space-y-4 mb-8">
-              {['VMS Selection Optimization', 'Storage Retention Calculators', 'Networking Throughput Analysis'].map(item => (
-                <li key={item} className="flex items-center text-slate-700 font-medium">
-                  <span className="w-6 h-6 bg-stikiRed/10 text-stikiRed rounded-full flex items-center justify-center mr-3 text-xs">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-end mb-16">
+            <h2 className="text-4xl font-bold">Industry Distribution Hub</h2>
+            <Link to="/solutions" className="text-stikiRed font-bold hover:underline">View All Technology Pillars →</Link>
           </div>
-          <AISolutionArchitect />
+          <div className="grid md:grid-cols-3 gap-8">
+            {SOLUTIONS.slice(0, 3).map(sol => (
+              <div key={sol.id} className="group relative overflow-hidden rounded-lg bg-charcoal h-[400px]">
+                <img src={sol.image} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" alt={sol.title} />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-8">
+                   <span className="text-stikiRed font-bold text-xs uppercase tracking-widest">{sol.category}</span>
+                   <h3 className="text-2xl font-bold text-white mt-2">{sol.title}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

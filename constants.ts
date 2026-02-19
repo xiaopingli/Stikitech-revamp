@@ -3,58 +3,67 @@ import { Solution, Partner, Service } from './types';
 
 export const BRAND_NAME = "STIKITECH";
 
+export const INDUSTRY_SECTORS = [
+  "Commercial/Retail",
+  "Government/Public Safety",
+  "Critical Infrastructure",
+  "Data Centers",
+  "Transportation/Logistics",
+  "Industrial/Manufacturing"
+];
+
 export const SOLUTIONS: Solution[] = [
   {
     id: 'vms',
     title: 'Enterprise VMS',
-    description: 'Unified security platforms for mission-critical video surveillance and situational awareness.',
+    description: 'Scalable Unified Platforms. We distribute Genetec Omnicast for mission-critical video surveillance and situational awareness.',
     icon: '📹',
-    category: 'Security',
-    image: 'https://picsum.photos/seed/vms/800/600'
+    category: 'Security Software',
+    image: 'https://images.unsplash.com/photo-1557597774-9d2739f85a76?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: 'networking',
-    title: 'L3 Managed Networking',
-    description: 'High-performance backbone infrastructure featuring Allied Telesis core switching technology.',
+    title: 'High-Performance Networking',
+    description: 'L3 Managed Switches from Allied Telesis. Engineered for high-bandwidth IP surveillance traffic.',
     icon: '🌐',
     category: 'Infrastructure',
-    image: 'https://picsum.photos/seed/net/800/600'
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: 'storage',
-    title: 'Scale-Out Storage',
-    description: 'Redundant, high-throughput storage solutions optimized for 24/7 video recording retention.',
+    title: 'Edge & Core Storage',
+    description: 'Redundant, high-throughput storage solutions from Compal optimized for 24/7 video retention.',
     icon: '💾',
     category: 'Storage',
-    image: 'https://picsum.photos/seed/storage/800/600'
+    image: 'https://images.unsplash.com/photo-1591405351990-4726e33df58d?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: 'access-control',
-    title: 'IP Access Control',
-    description: 'Seamlessly integrated biometric and credential management for modern facility security.',
+    title: 'Integrated Access Control',
+    description: 'Biometric and credential management powered by Genetec Synergis for modern facility security.',
     icon: '🔑',
-    category: 'Security',
-    image: 'https://picsum.photos/seed/access/800/600'
+    category: 'Security Hardware',
+    image: 'https://images.unsplash.com/photo-1510511459019-5dee99c48ea9?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
 export const PARTNERS: Partner[] = [
   {
     name: 'Genetec',
-    logo: 'https://picsum.photos/seed/genetec/200/100',
-    description: 'Global leader in unified security software and hardware.',
+    logo: 'GENETEC',
+    description: 'World leader in unified security software.',
     tier: 'Platinum Distributor'
   },
   {
     name: 'Allied Telesis',
-    logo: 'https://picsum.photos/seed/allied/200/100',
-    description: 'Next-generation networking for mission-critical applications.',
-    tier: 'Core Technology Partner'
+    logo: 'ALLIED TELESIS',
+    description: 'Network switches for extreme reliability.',
+    tier: 'Core Distribution'
   },
   {
     name: 'Compal',
-    logo: 'https://picsum.photos/seed/compal/200/100',
-    description: 'Enterprise computing and edge processing power.',
+    logo: 'COMPAL',
+    description: 'Enterprise computing and edge processing.',
     tier: 'Hardware Partner'
   }
 ];
@@ -62,18 +71,18 @@ export const PARTNERS: Partner[] = [
 export const SERVICES: Service[] = [
   {
     id: 'design',
-    name: 'System Design & Specification',
+    name: 'Pre-Sales Architecture',
     summary: 'Precision engineering for large-scale security deployments.',
     details: [
       'Site Surveys & Threat Assessment',
       'Bandwidth & Storage Calculations',
       'Network Topology Architecture',
-      'BOM Generation & Budgeting'
+      'BOM Generation'
     ]
   },
   {
     id: 'support',
-    name: 'Tier 3 Technical Support',
+    name: 'Tier 3 Post-Sales Support',
     summary: 'Expert localized assistance for complex integration challenges.',
     details: [
       'Pre-commissioning Validation',
