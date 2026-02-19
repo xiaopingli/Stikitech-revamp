@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { INDUSTRY_SECTORS } from '../constants';
-import { generateLeadSummary } from '../services/geminiService';
+import { INDUSTRY_SECTORS } from '../constants.ts';
+import { generateLeadSummary } from '../services/geminiService.ts';
 
 const LeadForm: React.FC = () => {
   const [formData, setFormData] = useState({

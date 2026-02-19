@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { SOLUTIONS } from '../constants';
+import { SOLUTIONS } from '../constants.ts';
 
 const Solutions: React.FC = () => {
   return (

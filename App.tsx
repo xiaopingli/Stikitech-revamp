@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import PartnerPage from './pages/PartnerPage';
-import Solutions from './pages/Solutions';
-import Services from './pages/Services';
-import WhatsAppIcon from './components/WhatsAppIcon';
-import { PageRoute } from './types';
+import Navbar from './components/Navbar.tsx';
+import Footer from './components/Footer.tsx';
+import Home from './pages/Home.tsx';
+import PartnerPage from './pages/PartnerPage.tsx';
+import Solutions from './pages/Solutions.tsx';
+import Services from './pages/Services.tsx';
+import WhatsAppIcon from './components/WhatsAppIcon.tsx';
+import { PageRoute } from './types.ts';
 
 const App: React.FC = () => {
   return (

@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SOLUTIONS, PARTNERS } from '../constants';
-import AISolutionArchitect from '../components/AISolutionArchitect';
-import LeadForm from '../components/LeadForm';
+import { SOLUTIONS, PARTNERS } from '../constants.ts';
+import AISolutionArchitect from '../components/AISolutionArchitect.tsx';
+import LeadForm from '../components/LeadForm.tsx';
 
 const Home: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { getSolutionRecommendation } from '../services/geminiService';
+import { getSolutionRecommendation } from '../services/geminiService.ts';
 
 const AISolutionArchitect: React.FC = () => {
   const [input, setInput] = useState('');
