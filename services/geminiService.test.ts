@@ -1,55 +1,67 @@
 
 import { test, mock } from 'node:test';
 import assert from 'node:assert';
+import { getSolutionRecommendation } from './geminiService.ts';
 
-// Mock the @google/genai module
-const generateContentMock = mock.fn();
-
-mock.module('@google/genai', {
-  namedExports: {
-    GoogleGenAI: class {
-      models = {
-        generateContent: generateContentMock
-      }
-    },
-    Type: {
-      OBJECT: 'OBJECT',
-      STRING: 'STRING',
-      ARRAY: 'ARRAY'
-    }
-  }
-});
-
-// Import the service AFTER mocking the module
-const { getSolutionRecommendation } = await import('./geminiService.ts');
+// Save original fetch
+const originalFetch = global.fetch;
 
 test('getSolutionRecommendation successfully returns a recommendation', async () => {
   const mockResponse = {
     text: 'Test recommendation content'
   };
 
-  generateContentMock.mock.mockImplementationOnce(async () => mockResponse);
+  // Mock global.fetch
+  const fetchMock = mock.fn(async (url, options) => {
+    return {
+      ok: true,
+      json: async () => mockResponse
+    };
+  });
+  global.fetch = fetchMock;
 
-  const result = await getSolutionRecommendation('test input');
+  try {
+    const result = await getSolutionRecommendation('test input');
 
-  assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(generateContentMock.mock.callCount(), 1);
+    assert.strictEqual(result, 'Test recommendation content');
+    assert.strictEqual(fetchMock.mock.callCount(), 1);
+
+    const callArgs = fetchMock.mock.calls[0].arguments;
+    assert.strictEqual(callArgs[0], '/api/gemini');
+
+    // check request body
+    const body = JSON.parse(callArgs[1].body);
+    assert.strictEqual(body.action, 'getSolutionRecommendation');
+    assert.strictEqual(body.userInput, 'test input');
+
+  } finally {
+    global.fetch = originalFetch;
+  }
 });
 
 test('getSolutionRecommendation handles API error', async () => {
-  generateContentMock.mock.mockImplementationOnce(async () => {
-    throw new Error('API Error');
+  // Mock global.fetch for error
+  const fetchMock = mock.fn(async () => {
+    return {
+      ok: false,
+      json: async () => ({ error: 'API Error' })
+    };
   });
+  global.fetch = fetchMock;
 
-  await assert.rejects(
-    async () => {
-      await getSolutionRecommendation('test input');
-    },
-    {
-      name: 'Error',
-      message: 'API Error'
-    }
-  );
+  try {
+    await assert.rejects(
+      async () => {
+        await getSolutionRecommendation('test input');
+      },
+      {
+        name: 'Error',
+        message: 'API Error'
+      }
+    );
 
-  assert.strictEqual(generateContentMock.mock.callCount(), 2);
+    assert.strictEqual(fetchMock.mock.callCount(), 1);
+  } finally {
+    global.fetch = originalFetch;
+  }
 });

@@ -27,7 +27,6 @@ export const CONTACT_INFO: ContactInfo = {
   salesEmail: 'sales@stikitech.com',
   supportEmail: 'support@stikitech.com',
   phone: '+1 (555) STIKI-TECH',
-  whatsapp: '6512345678',
   address: {
     line1: '123 Enterprise Way, Suite 400',
     line2: 'San Francisco, CA 94105'

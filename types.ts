@@ -46,7 +46,6 @@ export interface ContactInfo {
   salesEmail: string;
   supportEmail: string;
   phone: string;
-  whatsapp: string;
   address: {
     line1: string;
     line2: string;
