@@ -42,34 +42,64 @@ const LeadForm: React.FC = () => {
       <h3 className="text-2xl font-bold mb-6 text-charcoal">Solution Inquiry</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="contact-name" className="block text-sm font-medium text-slate-700 mb-1">
+              Contact Name <span className="text-stikiRed">*</span>
+            </label>
+            <input
+              id="contact-name"
+              type="text" required placeholder="Contact Name"
+              className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
+              value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
+            />
+          </div>
+          <div>
+            <label htmlFor="company-name" className="block text-sm font-medium text-slate-700 mb-1">
+              Company Name <span className="text-stikiRed">*</span>
+            </label>
+            <input
+              id="company-name"
+              type="text" required placeholder="Company Name"
+              className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
+              value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="business-email" className="block text-sm font-medium text-slate-700 mb-1">
+            Business Email <span className="text-stikiRed">*</span>
+          </label>
           <input 
-            type="text" required placeholder="Contact Name"
+            id="business-email"
+            type="email" required placeholder="Business Email"
             className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-            value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
-          />
-          <input 
-            type="text" required placeholder="Company Name"
-            className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-            value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
+            value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})}
           />
         </div>
-        <input 
-          type="email" required placeholder="Business Email"
-          className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-          value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})}
-        />
-        <select 
-          required className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-          value={formData.sector} onChange={e => setFormData({...formData, sector: e.target.value})}
-        >
-          <option value="">Select Industry Sector</option>
-          {INDUSTRY_SECTORS.map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <textarea 
-          required placeholder="Outline project scope (e.g., Camera count, retention needs, networking topology)"
-          className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors h-32"
-          value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})}
-        ></textarea>
+        <div>
+          <label htmlFor="industry-sector" className="block text-sm font-medium text-slate-700 mb-1">
+            Industry Sector <span className="text-stikiRed">*</span>
+          </label>
+          <select
+            id="industry-sector"
+            required className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
+            value={formData.sector} onChange={e => setFormData({...formData, sector: e.target.value})}
+          >
+            <option value="">Select Industry Sector</option>
+            {INDUSTRY_SECTORS.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="project-requirements" className="block text-sm font-medium text-slate-700 mb-1">
+            Project Scope <span className="text-stikiRed">*</span>
+          </label>
+          <textarea
+            id="project-requirements"
+            required placeholder="Outline project scope (e.g., Camera count, retention needs, networking topology)"
+            className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors h-32"
+            value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})}
+          ></textarea>
+        </div>
         
         <button 
           type="submit" disabled={status === 'loading'}
