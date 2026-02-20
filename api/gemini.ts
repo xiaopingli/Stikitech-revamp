@@ -1,5 +1,6 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
+
+let ai: GoogleGenAI | null = null;
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -14,7 +15,9 @@ export default async function handler(req: any, res: any) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server.' });
   }
 
-  const ai = new GoogleGenAI({ apiKey });
+  if (!ai) {
+    ai = new GoogleGenAI({ apiKey });
+  }
 
   try {
     if (action === 'getSolutionRecommendation') {
