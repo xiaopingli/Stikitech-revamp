@@ -15,6 +15,12 @@ export interface Partner {
   tier: string;
 }
 
+export interface PartnerProduct {
+  name: string;
+  type: string;
+  description: string;
+}
+
 export interface Service {
   id: string;
   name: string;

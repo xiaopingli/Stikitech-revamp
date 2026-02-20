@@ -1,5 +1,5 @@
 
-import { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo } from './types';
+import { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo, PartnerProduct } from './types';
 
 export const BRAND_NAME = "STIKITECH";
 
@@ -121,4 +121,17 @@ export const SERVICES: Service[] = [
       'Software Upgrade Management'
     ]
   }
+];
+
+export const PARTNER_PAGE_PRODUCTS: PartnerProduct[] = [
+  { name: 'Omnicast™', type: 'Video Management', description: 'Enterprise IP video system that scales to thousands of cameras seamlessly.' },
+  { name: 'Synergis™', type: 'Access Control', description: 'IP-based access control that ensures hardware independence and future-proofing.' },
+  { name: 'AutoVu™', type: 'LPR & ALPR', description: 'Automatic license plate recognition for parking management and city-wide safety.' }
+];
+
+export const PARTNER_PAGE_SERVICES: string[] = [
+  'Configuration Validation',
+  'Advanced Field Commissioning',
+  'Custom Plug-in Development',
+  'End-User Operator Training'
 ];
