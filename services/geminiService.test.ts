@@ -1,55 +1,42 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { getSolutionRecommendation } from './geminiService';
 
-import { test, mock } from 'node:test';
-import assert from 'node:assert';
+// Mock global fetch
+global.fetch = vi.fn();
 
-// Mock the @google/genai module
-const generateContentMock = mock.fn();
-
-mock.module('@google/genai', {
-  namedExports: {
-    GoogleGenAI: class {
-      models = {
-        generateContent: generateContentMock
-      }
-    },
-    Type: {
-      OBJECT: 'OBJECT',
-      STRING: 'STRING',
-      ARRAY: 'ARRAY'
-    }
-  }
-});
-
-// Import the service AFTER mocking the module
-const { getSolutionRecommendation } = await import('./geminiService.ts');
-
-test('getSolutionRecommendation successfully returns a recommendation', async () => {
-  const mockResponse = {
-    text: 'Test recommendation content'
-  };
-
-  generateContentMock.mock.mockImplementationOnce(async () => mockResponse);
-
-  const result = await getSolutionRecommendation('test input');
-
-  assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(generateContentMock.mock.callCount(), 1);
-});
-
-test('getSolutionRecommendation handles API error', async () => {
-  generateContentMock.mock.mockImplementationOnce(async () => {
-    throw new Error('API Error');
+describe('geminiService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  await assert.rejects(
-    async () => {
-      await getSolutionRecommendation('test input');
-    },
-    {
-      name: 'Error',
-      message: 'API Error'
-    }
-  );
+  it('getSolutionRecommendation successfully returns a recommendation', async () => {
+    const mockResponse = { text: 'Test recommendation content' };
 
-  assert.strictEqual(generateContentMock.mock.callCount(), 2);
+    // Mock successful fetch
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await getSolutionRecommendation('test input');
+
+    expect(result).toBe('Test recommendation content');
+    expect(fetch).toHaveBeenCalledWith('/api/gemini', expect.objectContaining({
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'getSolutionRecommendation',
+        userInput: 'test input'
+      })
+    }));
+  });
+
+  it('getSolutionRecommendation handles API error', async () => {
+    // Mock failed fetch
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ error: 'API Error' }),
+    } as Response);
+
+    await expect(getSolutionRecommendation('test input')).rejects.toThrow('API Error');
+  });
 });
