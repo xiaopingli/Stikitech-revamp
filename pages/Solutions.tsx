@@ -26,8 +26,12 @@ const Solutions: React.FC = () => {
                 <h3 className="text-2xl font-bold mt-2 mb-4">{sol.title}</h3>
                 <p className="text-slate-600 mb-6">{sol.description}</p>
                 <div className="flex space-x-4">
-                  <button className="text-sm font-bold border-b-2 border-stikiRed">Download Manual</button>
-                  <button className="text-sm font-bold border-b-2 border-charcoal">Case Studies</button>
+                  {sol.manualUrl && (
+                    <a href={sol.manualUrl} className="text-sm font-bold border-b-2 border-stikiRed">Download Manual</a>
+                  )}
+                  {sol.caseStudyUrl && (
+                    <a href={sol.caseStudyUrl} className="text-sm font-bold border-b-2 border-charcoal">Case Studies</a>
+                  )}
                 </div>
               </div>
             </div>
