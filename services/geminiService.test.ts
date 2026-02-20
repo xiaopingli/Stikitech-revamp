@@ -2,43 +2,38 @@
 import { test, mock } from 'node:test';
 import assert from 'node:assert';
 
-// Mock the @google/genai module
-const generateContentMock = mock.fn();
-
-mock.module('@google/genai', {
-  namedExports: {
-    GoogleGenAI: class {
-      models = {
-        generateContent: generateContentMock
-      }
-    },
-    Type: {
-      OBJECT: 'OBJECT',
-      STRING: 'STRING',
-      ARRAY: 'ARRAY'
-    }
-  }
-});
-
-// Import the service AFTER mocking the module
-const { getSolutionRecommendation } = await import('./geminiService.ts');
+// Import the service
+// Note: We import it normally now that fetch is globally mocked/available
+import { getSolutionRecommendation } from './geminiService.ts';
 
 test('getSolutionRecommendation successfully returns a recommendation', async () => {
   const mockResponse = {
     text: 'Test recommendation content'
   };
 
-  generateContentMock.mock.mockImplementationOnce(async () => mockResponse);
+  // Mock global.fetch for this test
+  // We use mock.method to spy on/mock the global fetch
+  const fetchMock = mock.method(global, 'fetch', async () => {
+    return {
+      ok: true,
+      json: async () => mockResponse
+    };
+  });
 
   const result = await getSolutionRecommendation('test input');
 
   assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(generateContentMock.mock.callCount(), 1);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
+
+  fetchMock.mock.restore();
 });
 
 test('getSolutionRecommendation handles API error', async () => {
-  generateContentMock.mock.mockImplementationOnce(async () => {
-    throw new Error('API Error');
+  const fetchMock = mock.method(global, 'fetch', async () => {
+    return {
+      ok: false,
+      json: async () => ({ error: 'API Error' })
+    };
   });
 
   await assert.rejects(
@@ -51,5 +46,6 @@ test('getSolutionRecommendation handles API error', async () => {
     }
   );
 
-  assert.strictEqual(generateContentMock.mock.callCount(), 2);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
+  fetchMock.mock.restore();
 });
