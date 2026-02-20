@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-800 flex justify-between items-center text-xs text-slate-500 uppercase tracking-widest">
-        <p>© 2026 {BRAND_NAME} INC. ALL RIGHTS RESERVED.</p>
+        <p>© {new Date().getFullYear()} {BRAND_NAME} INC. ALL RIGHTS RESERVED.</p>
         <div className="space-x-8">
           {LEGAL_LINKS.map(link => (
             <a key={link.name} href={link.url} className="hover:text-white">{link.name}</a>
