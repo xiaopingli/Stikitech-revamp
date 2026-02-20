@@ -3,8 +3,16 @@ import React, { useState } from 'react';
 import { INDUSTRY_SECTORS } from '../constants.ts';
 import { generateLeadSummary } from '../services/geminiService.ts';
 
+interface LeadFormData {
+  name: string;
+  company: string;
+  email: string;
+  sector: string;
+  requirements: string;
+}
+
 const LeadForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LeadFormData>({
     name: '',
     company: '',
     email: '',
@@ -12,6 +20,14 @@ const LeadForm: React.FC = () => {
     requirements: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,9 +64,10 @@ const LeadForm: React.FC = () => {
             </label>
             <input
               id="contact-name"
+              name="name"
               type="text" required placeholder="Contact Name"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-              value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
+              value={formData.name} onChange={handleChange}
             />
           </div>
           <div>
@@ -59,9 +76,10 @@ const LeadForm: React.FC = () => {
             </label>
             <input
               id="company-name"
+              name="company"
               type="text" required placeholder="Company Name"
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-              value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
+              value={formData.company} onChange={handleChange}
             />
           </div>
         </div>
@@ -71,9 +89,10 @@ const LeadForm: React.FC = () => {
           </label>
           <input 
             id="business-email"
+            name="email"
             type="email" required placeholder="Business Email"
             className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-            value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})}
+            value={formData.email} onChange={handleChange}
           />
         </div>
         <div>
@@ -82,8 +101,9 @@ const LeadForm: React.FC = () => {
           </label>
           <select
             id="industry-sector"
+            name="sector"
             required className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors"
-            value={formData.sector} onChange={e => setFormData({...formData, sector: e.target.value})}
+            value={formData.sector} onChange={handleChange}
           >
             <option value="">Select Industry Sector</option>
             {INDUSTRY_SECTORS.map(s => <option key={s} value={s}>{s}</option>)}
@@ -95,9 +115,10 @@ const LeadForm: React.FC = () => {
           </label>
           <textarea
             id="project-requirements"
+            name="requirements"
             required placeholder="Outline project scope (e.g., Camera count, retention needs, networking topology)"
             className="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm outline-none focus:border-stikiRed transition-colors h-32"
-            value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})}
+            value={formData.requirements} onChange={handleChange}
           ></textarea>
         </div>
         
