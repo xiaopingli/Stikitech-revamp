@@ -91,7 +91,12 @@ const Home: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {SOLUTIONS.slice(0, 3).map(sol => (
               <div key={sol.id} className="group relative overflow-hidden rounded-lg bg-charcoal h-[400px]">
-                <img src={sol.image} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" alt={sol.title} />
+                <img
+                  src={sol.image}
+                  className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700"
+                  alt={sol.title}
+                  loading="lazy"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
                 <div className="absolute bottom-0 left-0 p-8">
                    <span className="text-stikiRed font-bold text-xs uppercase tracking-widest">{sol.category}</span>
