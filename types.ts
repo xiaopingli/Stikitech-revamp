@@ -29,3 +29,23 @@ export enum PageRoute {
   GENETEC = '/partners/genetec',
   CONTACT = '/contact'
 }
+
+export interface SocialLink {
+  name: string;
+  url: string;
+}
+
+export interface FooterLink {
+  name: string;
+  url: string;
+}
+
+export interface ContactInfo {
+  salesEmail: string;
+  supportEmail: string;
+  phone: string;
+  address: {
+    line1: string;
+    line2: string;
+  };
+}
