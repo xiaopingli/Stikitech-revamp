@@ -5,22 +5,24 @@ export const BRAND_NAME = "STIKITECH";
 
 export const FOOTER_DESCRIPTION = "The standard in enterprise security distribution. Empowering integrators through technical excellence and unified technology stacks.";
 
+export const PLACEHOLDER_LINK = '#';
+
 export const SOCIAL_LINKS: SocialLink[] = [
-  { name: 'LinkedIn', url: '#' },
-  { name: 'Twitter', url: '#' },
-  { name: 'YouTube', url: '#' }
+  { name: 'LinkedIn', url: PLACEHOLDER_LINK },
+  { name: 'Twitter', url: PLACEHOLDER_LINK },
+  { name: 'YouTube', url: PLACEHOLDER_LINK }
 ];
 
 export const DISTRIBUTION_LINKS: FooterLink[] = [
-  { name: 'Video Surveillance', url: '#' },
-  { name: 'Managed Networking', url: '#' },
-  { name: 'Enterprise Storage', url: '#' },
-  { name: 'LPR Systems', url: '#' }
+  { name: 'Video Surveillance', url: PLACEHOLDER_LINK },
+  { name: 'Managed Networking', url: PLACEHOLDER_LINK },
+  { name: 'Enterprise Storage', url: PLACEHOLDER_LINK },
+  { name: 'LPR Systems', url: PLACEHOLDER_LINK }
 ];
 
 export const LEGAL_LINKS: FooterLink[] = [
-  { name: 'Privacy Policy', url: '#' },
-  { name: 'Terms of Service', url: '#' }
+  { name: 'Privacy Policy', url: PLACEHOLDER_LINK },
+  { name: 'Terms of Service', url: PLACEHOLDER_LINK }
 ];
 
 export const CONTACT_INFO: ContactInfo = {
@@ -31,6 +33,20 @@ export const CONTACT_INFO: ContactInfo = {
     line1: '123 Enterprise Way, Suite 400',
     line2: 'San Francisco, CA 94105'
   }
+};
+
+export const FOOTER_CONTENT = {
+  sections: {
+    distribution: "Distribution",
+    inquiries: "Inquiries",
+    globalHQ: "Global HQ"
+  },
+  contactLabels: {
+    sales: "Sales:",
+    support: "Support:",
+    office: "Office:"
+  },
+  copyright: "INC. ALL RIGHTS RESERVED."
 };
 
 export const INDUSTRY_SECTORS = [

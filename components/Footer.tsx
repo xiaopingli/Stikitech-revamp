@@ -6,7 +6,8 @@ import {
   SOCIAL_LINKS,
   DISTRIBUTION_LINKS,
   CONTACT_INFO,
-  LEGAL_LINKS
+  LEGAL_LINKS,
+  FOOTER_CONTENT
 } from '../constants';
 
 const Footer: React.FC = () => {
@@ -28,7 +29,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div>
-          <h4 className="font-bold mb-6 uppercase tracking-widest text-stikiRed">Distribution</h4>
+          <h4 className="font-bold mb-6 uppercase tracking-widest text-stikiRed">{FOOTER_CONTENT.sections.distribution}</h4>
           <ul className="space-y-4 text-slate-400 text-sm">
             {DISTRIBUTION_LINKS.map(link => (
               <li key={link.name}>
@@ -39,13 +40,13 @@ const Footer: React.FC = () => {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 uppercase tracking-widest text-stikiRed">Inquiries</h4>
+          <h4 className="font-bold mb-6 uppercase tracking-widest text-stikiRed">{FOOTER_CONTENT.sections.inquiries}</h4>
           <ul className="space-y-4 text-slate-400 text-sm">
-            <li>Sales: {CONTACT_INFO.salesEmail}</li>
-            <li>Support: {CONTACT_INFO.supportEmail}</li>
-            <li>Office: {CONTACT_INFO.phone}</li>
+            <li>{FOOTER_CONTENT.contactLabels.sales} {CONTACT_INFO.salesEmail}</li>
+            <li>{FOOTER_CONTENT.contactLabels.support} {CONTACT_INFO.supportEmail}</li>
+            <li>{FOOTER_CONTENT.contactLabels.office} {CONTACT_INFO.phone}</li>
             <li className="mt-6">
-              <span className="block font-bold text-white">Global HQ</span>
+              <span className="block font-bold text-white">{FOOTER_CONTENT.sections.globalHQ}</span>
               {CONTACT_INFO.address.line1}<br/>{CONTACT_INFO.address.line2}
             </li>
           </ul>
@@ -53,7 +54,7 @@ const Footer: React.FC = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-800 flex justify-between items-center text-xs text-slate-500 uppercase tracking-widest">
-        <p>© 2026 {BRAND_NAME} INC. ALL RIGHTS RESERVED.</p>
+        <p>© {new Date().getFullYear()} {BRAND_NAME} {FOOTER_CONTENT.copyright}</p>
         <div className="space-x-8">
           {LEGAL_LINKS.map(link => (
             <a key={link.name} href={link.url} className="hover:text-white">{link.name}</a>
