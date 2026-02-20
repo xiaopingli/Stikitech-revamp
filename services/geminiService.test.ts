@@ -1,44 +1,41 @@
 
-import { test, mock } from 'node:test';
+import { test, mock, afterEach } from 'node:test';
 import assert from 'node:assert';
+import { getSolutionRecommendation } from './geminiService.ts';
 
-// Mock the @google/genai module
-const generateContentMock = mock.fn();
+// Mock the global fetch function
+const fetchMock = mock.method(global, 'fetch');
 
-mock.module('@google/genai', {
-  namedExports: {
-    GoogleGenAI: class {
-      models = {
-        generateContent: generateContentMock
-      }
-    },
-    Type: {
-      OBJECT: 'OBJECT',
-      STRING: 'STRING',
-      ARRAY: 'ARRAY'
-    }
-  }
+afterEach(() => {
+  fetchMock.mock.resetCalls();
 });
-
-// Import the service AFTER mocking the module
-const { getSolutionRecommendation } = await import('./geminiService.ts');
 
 test('getSolutionRecommendation successfully returns a recommendation', async () => {
   const mockResponse = {
     text: 'Test recommendation content'
   };
 
-  generateContentMock.mock.mockImplementationOnce(async () => mockResponse);
+  fetchMock.mock.mockImplementationOnce(async () => {
+    return {
+      ok: true,
+      json: async () => mockResponse
+    } as Response;
+  });
 
   const result = await getSolutionRecommendation('test input');
 
   assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(generateContentMock.mock.callCount(), 1);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
 });
 
 test('getSolutionRecommendation handles API error', async () => {
-  generateContentMock.mock.mockImplementationOnce(async () => {
-    throw new Error('API Error');
+  const errorResponse = { error: 'API Error' };
+
+  fetchMock.mock.mockImplementationOnce(async () => {
+    return {
+      ok: false,
+      json: async () => errorResponse
+    } as Response;
   });
 
   await assert.rejects(
@@ -51,5 +48,5 @@ test('getSolutionRecommendation handles API error', async () => {
     }
   );
 
-  assert.strictEqual(generateContentMock.mock.callCount(), 2);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
 });
