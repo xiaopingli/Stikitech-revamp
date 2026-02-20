@@ -22,13 +22,15 @@ export interface Service {
   details: string[];
 }
 
-export enum PageRoute {
-  HOME = '/',
-  SOLUTIONS = '/solutions',
-  SERVICES = '/services',
-  GENETEC = '/partners/genetec',
-  CONTACT = '/contact'
-}
+export const PageRoute = {
+  HOME: '/',
+  SOLUTIONS: '/solutions',
+  SERVICES: '/services',
+  GENETEC: '/partners/genetec',
+  CONTACT: '/contact'
+} as const;
+
+export type PageRoute = typeof PageRoute[keyof typeof PageRoute];
 
 export interface SocialLink {
   name: string;
