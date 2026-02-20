@@ -12,10 +12,12 @@ const LeadForm: React.FC = () => {
     requirements: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
+    setError(null);
     
     try {
       // Simulate submission and AI processing
@@ -23,6 +25,7 @@ const LeadForm: React.FC = () => {
       setTimeout(() => setStatus('success'), 1500);
     } catch (err) {
       console.error(err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       setStatus('idle');
     }
   };
@@ -40,6 +43,14 @@ const LeadForm: React.FC = () => {
   return (
     <div className="bg-white p-10 rounded shadow-2xl border-t-4 border-stikiRed">
       <h3 className="text-2xl font-bold mb-6 text-charcoal">Solution Inquiry</h3>
+
+      {error && (
+        <div className="bg-red-50 border-l-4 border-stikiRed p-4 mb-6" role="alert">
+          <p className="font-bold text-stikiRed">Submission Error</p>
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
           <div>
