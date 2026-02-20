@@ -19,7 +19,7 @@ const Solutions: React.FC = () => {
           {SOLUTIONS.map(sol => (
             <div key={sol.id} className="group bg-white rounded shadow-sm overflow-hidden flex flex-col md:flex-row border border-slate-100 hover:shadow-xl transition-all">
               <div className="md:w-1/3 h-64 md:h-auto overflow-hidden">
-                <img src={sol.image} alt={sol.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={sol.image} alt={sol.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-8 md:w-2/3">
                 <span className="text-stikiRed font-bold text-xs uppercase tracking-widest">{sol.category}</span>
