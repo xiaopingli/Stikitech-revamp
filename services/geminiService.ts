@@ -1,50 +1,41 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
-
-const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
-
 export const getSolutionRecommendation = async (userInput: string) => {
-  const ai = getAI();
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
-    contents: `You are the Stikitech Solution Architect. A client asks: "${userInput}". 
-    Provide a professional B2B recommendation including: 
-    1. Primary VMS/Software (Focus on Genetec)
-    2. Infrastructure (Focus on Allied Telesis switches)
-    3. Storage requirements.
-    Keep the tone authoritative and technical.`,
-    config: {
-      temperature: 0.7,
-      topP: 0.9,
-      thinkingConfig: { thinkingBudget: 2000 }
-    }
+  const response = await fetch('/api/gemini', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      action: 'getSolutionRecommendation',
+      userInput,
+    }),
   });
 
-  return response.text;
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to get recommendation');
+  }
+
+  const data = await response.json();
+  return data.text;
 };
 
 export const generateLeadSummary = async (formData: any) => {
-  const ai = getAI();
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: `Summarize this B2B inquiry for a sales representative: ${JSON.stringify(formData)}. 
-    Suggest 3 qualifying questions for the first call.`,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          summary: { type: Type.STRING },
-          priority: { type: Type.STRING },
-          suggestedQuestions: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING }
-          }
-        },
-        required: ["summary", "priority", "suggestedQuestions"]
-      }
-    }
+  const response = await fetch('/api/gemini', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      action: 'generateLeadSummary',
+      formData,
+    }),
   });
 
-  return JSON.parse(response.text);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to generate lead summary');
+  }
+
+  return response.json();
 };
