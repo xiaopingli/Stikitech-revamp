@@ -30,7 +30,8 @@ export const CONTACT_INFO: ContactInfo = {
   address: {
     line1: '123 Enterprise Way, Suite 400',
     line2: 'San Francisco, CA 94105'
-  }
+  },
+  whatsapp: (import.meta as any).env?.VITE_WHATSAPP_NUMBER || "6512345678"
 };
 
 export const INDUSTRY_SECTORS = [
