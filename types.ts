@@ -6,6 +6,8 @@ export interface Solution {
   icon: string;
   category: string;
   image: string;
+  manualUrl?: string;
+  caseStudyUrl?: string;
 }
 
 export interface Partner {
