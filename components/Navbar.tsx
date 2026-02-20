@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BRAND_NAME } from '../constants';
 import { PageRoute } from '../types';
+import { throttle } from '../utils/performance';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = throttle(() => setIsScrolled(window.scrollY > 50), 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
