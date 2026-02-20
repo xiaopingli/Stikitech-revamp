@@ -1,3 +1,4 @@
+import type { LeadFormData } from '../types.ts';
 
 export const getSolutionRecommendation = async (userInput: string) => {
   const response = await fetch('/api/gemini', {
@@ -20,7 +21,7 @@ export const getSolutionRecommendation = async (userInput: string) => {
   return data.text;
 };
 
-export const generateLeadSummary = async (formData: any) => {
+export const generateLeadSummary = async (formData: LeadFormData) => {
   const response = await fetch('/api/gemini', {
     method: 'POST',
     headers: {

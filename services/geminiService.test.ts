@@ -1,45 +1,35 @@
-
 import { test, mock } from 'node:test';
 import assert from 'node:assert';
-
-// Mock the @google/genai module
-const generateContentMock = mock.fn();
-
-mock.module('@google/genai', {
-  namedExports: {
-    GoogleGenAI: class {
-      models = {
-        generateContent: generateContentMock
-      }
-    },
-    Type: {
-      OBJECT: 'OBJECT',
-      STRING: 'STRING',
-      ARRAY: 'ARRAY'
-    }
-  }
-});
-
-// Import the service AFTER mocking the module
-const { getSolutionRecommendation } = await import('./geminiService.ts');
+import { getSolutionRecommendation, generateLeadSummary } from './geminiService.ts';
 
 test('getSolutionRecommendation successfully returns a recommendation', async () => {
   const mockResponse = {
-    text: 'Test recommendation content'
+    ok: true,
+    json: async () => ({ text: 'Test recommendation content' })
   };
 
-  generateContentMock.mock.mockImplementationOnce(async () => mockResponse);
+  const fetchMock = mock.method(global, 'fetch', async () => mockResponse);
 
   const result = await getSolutionRecommendation('test input');
 
   assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(generateContentMock.mock.callCount(), 1);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
+  const callArgs = fetchMock.mock.calls[0].arguments;
+  assert.strictEqual(callArgs[0], '/api/gemini');
+  const body = JSON.parse(callArgs[1].body);
+  assert.strictEqual(body.action, 'getSolutionRecommendation');
+  assert.strictEqual(body.userInput, 'test input');
+
+  fetchMock.mock.restore();
 });
 
 test('getSolutionRecommendation handles API error', async () => {
-  generateContentMock.mock.mockImplementationOnce(async () => {
-    throw new Error('API Error');
-  });
+  const mockResponse = {
+    ok: false,
+    json: async () => ({ error: 'API Error' })
+  };
+
+  const fetchMock = mock.method(global, 'fetch', async () => mockResponse);
 
   await assert.rejects(
     async () => {
@@ -51,5 +41,74 @@ test('getSolutionRecommendation handles API error', async () => {
     }
   );
 
-  assert.strictEqual(generateContentMock.mock.callCount(), 2);
+  assert.strictEqual(fetchMock.mock.callCount(), 1);
+
+  fetchMock.mock.restore();
+});
+
+test('generateLeadSummary successfully returns summary', async () => {
+    const mockFormData = {
+        name: 'John Doe',
+        company: 'ACME',
+        email: 'john@acme.com',
+        sector: 'Retail',
+        requirements: 'Cameras'
+    };
+
+    const mockResponseData = {
+        summary: 'Test summary',
+        priority: 'High',
+        suggestedQuestions: ['Q1', 'Q2']
+    };
+
+    const mockResponse = {
+        ok: true,
+        json: async () => mockResponseData
+    };
+
+    const fetchMock = mock.method(global, 'fetch', async () => mockResponse);
+
+    const result = await generateLeadSummary(mockFormData);
+
+    assert.deepStrictEqual(result, mockResponseData);
+    assert.strictEqual(fetchMock.mock.callCount(), 1);
+
+    const callArgs = fetchMock.mock.calls[0].arguments;
+    assert.strictEqual(callArgs[0], '/api/gemini');
+    const body = JSON.parse(callArgs[1].body);
+    assert.strictEqual(body.action, 'generateLeadSummary');
+    assert.deepStrictEqual(body.formData, mockFormData);
+
+    fetchMock.mock.restore();
+});
+
+test('generateLeadSummary handles API error', async () => {
+    const mockFormData = {
+        name: 'John Doe',
+        company: 'ACME',
+        email: 'john@acme.com',
+        sector: 'Retail',
+        requirements: 'Cameras'
+    };
+
+    const mockResponse = {
+        ok: false,
+        json: async () => ({ error: 'Summary Error' })
+    };
+
+    const fetchMock = mock.method(global, 'fetch', async () => mockResponse);
+
+    await assert.rejects(
+        async () => {
+            await generateLeadSummary(mockFormData);
+        },
+        {
+            name: 'Error',
+            message: 'Summary Error'
+        }
+    );
+
+    assert.strictEqual(fetchMock.mock.callCount(), 1);
+
+    fetchMock.mock.restore();
 });

@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { INDUSTRY_SECTORS } from '../constants.ts';
 import { generateLeadSummary } from '../services/geminiService.ts';
+import type { LeadFormData } from '../types.ts';
 
 const LeadForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LeadFormData>({
     name: '',
     company: '',
     email: '',
