@@ -1,5 +1,5 @@
 
-import { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo } from './types';
+import type { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo } from './types.ts';
 
 export const BRAND_NAME = "STIKITECH";
 
