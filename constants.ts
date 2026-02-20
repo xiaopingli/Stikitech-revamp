@@ -5,6 +5,8 @@ export const BRAND_NAME = "STIKITECH";
 
 export const FOOTER_DESCRIPTION = "The standard in enterprise security distribution. Empowering integrators through technical excellence and unified technology stacks.";
 
+export const HOME_HERO_IMAGE = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920";
+
 export const SOCIAL_LINKS: SocialLink[] = [
   { name: 'LinkedIn', url: '#' },
   { name: 'Twitter', url: '#' },

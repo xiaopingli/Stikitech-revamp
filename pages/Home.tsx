@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SOLUTIONS, PARTNERS } from '../constants.ts';
+import { SOLUTIONS, PARTNERS, HOME_HERO_IMAGE } from '../constants.ts';
 import AISolutionArchitect from '../components/AISolutionArchitect.tsx';
 import LeadForm from '../components/LeadForm.tsx';
 
@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <section className="relative h-[90vh] flex items-center bg-charcoal overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920" 
+            src={HOME_HERO_IMAGE}
             className="w-full h-full object-cover opacity-20" 
             alt="Global Security Infrastructure" 
           />
