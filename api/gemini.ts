@@ -20,25 +20,32 @@ export default async function handler(req: any, res: any) {
     if (action === 'getSolutionRecommendation') {
       const response = await ai.models.generateContent({
         model: 'gemini-3-pro-preview',
-        contents: `You are the Stikitech Solution Architect. A client asks: "${userInput}".
-        Provide a professional B2B recommendation including:
+        config: {
+          systemInstruction: `You are the Stikitech Solution Architect.
+        Provide a professional B2B recommendation based on the client's inquiry.
+        The recommendation must include:
         1. Primary VMS/Software (Focus on Genetec)
         2. Infrastructure (Focus on Allied Telesis switches)
         3. Storage requirements.
         Keep the tone authoritative and technical.`,
-        config: {
           temperature: 0.7,
           topP: 0.9,
           thinkingConfig: { thinkingBudget: 2000 }
-        }
+        },
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: `A client asks: "${userInput}"` }]
+          }
+        ]
       });
       return res.status(200).json({ text: response.text });
     } else if (action === 'generateLeadSummary') {
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: `Summarize this B2B inquiry for a sales representative: ${JSON.stringify(formData)}.
-        Suggest 3 qualifying questions for the first call.`,
         config: {
+          systemInstruction: `Summarize the B2B inquiry provided by the user for a sales representative.
+        Suggest 3 qualifying questions for the first call.`,
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -52,7 +59,13 @@ export default async function handler(req: any, res: any) {
             },
             required: ["summary", "priority", "suggestedQuestions"]
           }
-        }
+        },
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: JSON.stringify(formData) }]
+          }
+        ]
       });
       return res.status(200).json(JSON.parse(response.text));
     } else {
