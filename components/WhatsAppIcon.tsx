@@ -1,8 +1,9 @@
 
 import React from 'react';
+import { CONTACT_INFO } from '../constants';
 
 const WhatsAppIcon: React.FC = () => {
-  const whatsappUrl = "https://wa.me/6512345678"; // Placeholder Singapore number
+  const whatsappUrl = `https://wa.me/${CONTACT_INFO.whatsapp}`;
 
   return (
     <a 
