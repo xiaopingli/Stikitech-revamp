@@ -51,4 +51,5 @@ export interface ContactInfo {
     line1: string;
     line2: string;
   };
+  whatsapp: string;
 }
