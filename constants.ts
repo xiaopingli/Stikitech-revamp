@@ -1,7 +1,37 @@
 
-import { Solution, Partner, Service } from './types';
+import { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo } from './types';
 
 export const BRAND_NAME = "STIKITECH";
+
+export const FOOTER_DESCRIPTION = "The standard in enterprise security distribution. Empowering integrators through technical excellence and unified technology stacks.";
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { name: 'LinkedIn', url: '#' },
+  { name: 'Twitter', url: '#' },
+  { name: 'YouTube', url: '#' }
+];
+
+export const DISTRIBUTION_LINKS: FooterLink[] = [
+  { name: 'Video Surveillance', url: '#' },
+  { name: 'Managed Networking', url: '#' },
+  { name: 'Enterprise Storage', url: '#' },
+  { name: 'LPR Systems', url: '#' }
+];
+
+export const LEGAL_LINKS: FooterLink[] = [
+  { name: 'Privacy Policy', url: '#' },
+  { name: 'Terms of Service', url: '#' }
+];
+
+export const CONTACT_INFO: ContactInfo = {
+  salesEmail: 'sales@stikitech.com',
+  supportEmail: 'support@stikitech.com',
+  phone: '+1 (555) STIKI-TECH',
+  address: {
+    line1: '123 Enterprise Way, Suite 400',
+    line2: 'San Francisco, CA 94105'
+  }
+};
 
 export const INDUSTRY_SECTORS = [
   "Commercial/Retail",
