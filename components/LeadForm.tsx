@@ -20,7 +20,7 @@ const LeadForm: React.FC = () => {
     try {
       // Simulate submission and AI processing
       await generateLeadSummary(formData);
-      setTimeout(() => setStatus('success'), 1500);
+      setStatus('success');
     } catch (err) {
       console.error(err);
       setStatus('idle');
