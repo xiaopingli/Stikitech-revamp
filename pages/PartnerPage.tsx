@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { PARTNER_PAGE_PRODUCTS, PARTNER_PAGE_SERVICES } from '../constants';
 
 const PartnerPage: React.FC = () => {
   return (
@@ -18,15 +19,11 @@ const PartnerPage: React.FC = () => {
       {/* Product Highlights */}
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="grid md:grid-cols-3 gap-12">
-          {[
-            { name: 'Omnicast™', type: 'Video Management', desc: 'Enterprise IP video system that scales to thousands of cameras seamlessly.' },
-            { name: 'Synergis™', type: 'Access Control', desc: 'IP-based access control that ensures hardware independence and future-proofing.' },
-            { name: 'AutoVu™', type: 'LPR & ALPR', desc: 'Automatic license plate recognition for parking management and city-wide safety.' }
-          ].map(product => (
+          {PARTNER_PAGE_PRODUCTS.map(product => (
             <div key={product.name} className="border-t-4 border-stikiRed pt-8">
               <span className="text-slate-400 text-xs font-bold uppercase tracking-widest">{product.type}</span>
               <h3 className="text-3xl font-bold mt-2 mb-4">{product.name}</h3>
-              <p className="text-slate-600 mb-8">{product.desc}</p>
+              <p className="text-slate-600 mb-8">{product.description}</p>
               <button className="text-stikiRed font-bold hover:underline">Download Datasheet</button>
             </div>
           ))}
@@ -45,12 +42,7 @@ const PartnerPage: React.FC = () => {
               <button className="bg-charcoal text-white px-8 py-3 rounded hover:bg-stikiRed transition-all">Connect with an Engineer</button>
             </div>
             <div className="md:w-2/3 grid md:grid-cols-2 gap-8">
-              {[
-                'Configuration Validation',
-                'Advanced Field Commissioning',
-                'Custom Plug-in Development',
-                'End-User Operator Training'
-              ].map(service => (
+              {PARTNER_PAGE_SERVICES.map(service => (
                 <div key={service} className="bg-white p-8 rounded shadow-sm border border-slate-200">
                   <h4 className="font-bold text-lg mb-2">{service}</h4>
                   <p className="text-slate-500 text-sm">Comprehensive technical assistance tailored for large-scale enterprise projects.</p>
