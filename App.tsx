@@ -7,6 +7,7 @@ import Home from './pages/Home.tsx';
 import PartnerPage from './pages/PartnerPage.tsx';
 import Solutions from './pages/Solutions.tsx';
 import Services from './pages/Services.tsx';
+import Contact from './pages/Contact.tsx';
 import WhatsAppIcon from './components/WhatsAppIcon.tsx';
 import { PageRoute } from './types.ts';
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             <Route path={PageRoute.SOLUTIONS} element={<Solutions />} />
             <Route path={PageRoute.SERVICES} element={<Services />} />
             <Route path={PageRoute.GENETEC} element={<PartnerPage />} />
+            <Route path={PageRoute.CONTACT} element={<Contact />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
