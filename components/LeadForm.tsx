@@ -4,8 +4,16 @@ import { INDUSTRY_SECTORS } from '../constants.ts';
 import { generateLeadSummary } from '../services/geminiService.ts';
 import { validateLeadForm, type LeadFormErrors } from '../services/validation.ts';
 
+interface LeadFormData {
+  name: string;
+  company: string;
+  email: string;
+  sector: string;
+  requirements: string;
+}
+
 const LeadForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LeadFormData>({
     name: '',
     company: '',
     email: '',
@@ -14,6 +22,15 @@ const LeadForm: React.FC = () => {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [errors, setErrors] = useState<LeadFormErrors>({});
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +43,7 @@ const LeadForm: React.FC = () => {
     setErrors({});
 
     setStatus('loading');
+    setError(null);
     
     try {
       // Simulate submission and AI processing
@@ -33,6 +51,7 @@ const LeadForm: React.FC = () => {
       setStatus('success');
     } catch (err) {
       console.error(err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       setStatus('idle');
     }
   };
@@ -50,6 +69,14 @@ const LeadForm: React.FC = () => {
   return (
     <div className="bg-white p-10 rounded shadow-2xl border-t-4 border-stikiRed">
       <h3 className="text-2xl font-bold mb-6 text-charcoal">Solution Inquiry</h3>
+
+      {error && (
+        <div className="bg-red-50 border-l-4 border-stikiRed p-4 mb-6" role="alert">
+          <p className="font-bold text-stikiRed">Submission Error</p>
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
@@ -58,9 +85,10 @@ const LeadForm: React.FC = () => {
             </label>
             <input
               id="contact-name"
+              name="name"
               type="text" required placeholder="Contact Name"
               className={`w-full p-3 bg-slate-50 border ${errors.name ? 'border-red-500' : 'border-slate-200'} rounded text-sm outline-none focus:border-stikiRed transition-colors`}
-              value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
+              value={formData.name} onChange={handleChange}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -70,9 +98,10 @@ const LeadForm: React.FC = () => {
             </label>
             <input
               id="company-name"
+              name="company"
               type="text" required placeholder="Company Name"
               className={`w-full p-3 bg-slate-50 border ${errors.company ? 'border-red-500' : 'border-slate-200'} rounded text-sm outline-none focus:border-stikiRed transition-colors`}
-              value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
+              value={formData.company} onChange={handleChange}
             />
             {errors.company && <p className="text-red-500 text-xs mt-1">{errors.company}</p>}
           </div>
@@ -83,9 +112,10 @@ const LeadForm: React.FC = () => {
           </label>
           <input 
             id="business-email"
+            name="email"
             type="email" required placeholder="Business Email"
             className={`w-full p-3 bg-slate-50 border ${errors.email ? 'border-red-500' : 'border-slate-200'} rounded text-sm outline-none focus:border-stikiRed transition-colors`}
-            value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})}
+            value={formData.email} onChange={handleChange}
           />
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
@@ -95,8 +125,9 @@ const LeadForm: React.FC = () => {
           </label>
           <select
             id="industry-sector"
+            name="sector"
             required className={`w-full p-3 bg-slate-50 border ${errors.sector ? 'border-red-500' : 'border-slate-200'} rounded text-sm outline-none focus:border-stikiRed transition-colors`}
-            value={formData.sector} onChange={e => setFormData({...formData, sector: e.target.value})}
+            value={formData.sector} onChange={handleChange}
           >
             <option value="">Select Industry Sector</option>
             {INDUSTRY_SECTORS.map(s => <option key={s} value={s}>{s}</option>)}
@@ -109,9 +140,10 @@ const LeadForm: React.FC = () => {
           </label>
           <textarea
             id="project-requirements"
+            name="requirements"
             required placeholder="Outline project scope (e.g., Camera count, retention needs, networking topology)"
             className={`w-full p-3 bg-slate-50 border ${errors.requirements ? 'border-red-500' : 'border-slate-200'} rounded text-sm outline-none focus:border-stikiRed transition-colors h-32`}
-            value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})}
+            value={formData.requirements} onChange={handleChange}
           ></textarea>
           {errors.requirements && <p className="text-red-500 text-xs mt-1">{errors.requirements}</p>}
         </div>

@@ -1,51 +1,115 @@
 
-import { test, mock } from 'node:test';
-import assert from 'node:assert';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { getSolutionRecommendation, generateLeadSummary } from './geminiService';
 
-// Import the service
-// Note: We import it normally now that fetch is globally mocked/available
-import { getSolutionRecommendation } from './geminiService.ts';
+// Mock global fetch
+global.fetch = vi.fn();
 
-test('getSolutionRecommendation successfully returns a recommendation', async () => {
-  const mockResponse = {
-    text: 'Test recommendation content'
-  };
-
-  // Mock global.fetch for this test
-  // We use mock.method to spy on/mock the global fetch
-  const fetchMock = mock.method(global, 'fetch', async () => {
-    return {
-      ok: true,
-      json: async () => mockResponse
-    };
+describe('geminiService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  const result = await getSolutionRecommendation('test input');
+  describe('getSolutionRecommendation', () => {
+    it('successfully returns a recommendation', async () => {
+      const mockResponse = { text: 'Test recommendation content' };
 
-  assert.strictEqual(result, 'Test recommendation content');
-  assert.strictEqual(fetchMock.mock.callCount(), 1);
+      // Mock successful fetch
+      vi.mocked(fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      } as Response);
 
-  fetchMock.mock.restore();
-});
+      const result = await getSolutionRecommendation('test input');
 
-test('getSolutionRecommendation handles API error', async () => {
-  const fetchMock = mock.method(global, 'fetch', async () => {
-    return {
-      ok: false,
-      json: async () => ({ error: 'API Error' })
-    };
+      expect(result).toBe('Test recommendation content');
+      expect(fetch).toHaveBeenCalledWith('/api/gemini', expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'getSolutionRecommendation',
+          userInput: 'test input'
+        })
+      }));
+    });
+
+    it('handles API error', async () => {
+      // Mock failed fetch
+      vi.mocked(fetch).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ error: 'API Error' }),
+      } as Response);
+
+      await expect(getSolutionRecommendation('test input')).rejects.toThrow('API Error');
+    });
+
+    it('handles network error', async () => {
+        // Mock network error
+        vi.mocked(fetch).mockRejectedValueOnce(new Error('Network Error'));
+
+        await expect(getSolutionRecommendation('test input')).rejects.toThrow('Network Error');
+    });
   });
 
-  await assert.rejects(
-    async () => {
-      await getSolutionRecommendation('test input');
-    },
-    {
-      name: 'Error',
-      message: 'API Error'
-    }
-  );
+  describe('generateLeadSummary', () => {
+    it('successfully returns a lead summary', async () => {
+      const mockFormData = {
+        name: 'Test User',
+        company: 'Test Co',
+        email: 'test@example.com',
+        sector: 'Test Sector',
+        requirements: 'Test Requirements'
+      };
+      const mockResponseData = { summary: 'Test Summary' };
 
-  assert.strictEqual(fetchMock.mock.callCount(), 1);
-  fetchMock.mock.restore();
+      // Mock successful fetch
+      vi.mocked(fetch).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponseData,
+      } as Response);
+
+      const result = await generateLeadSummary(mockFormData);
+
+      expect(result).toEqual(mockResponseData);
+      expect(fetch).toHaveBeenCalledWith('/api/gemini', expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'generateLeadSummary',
+          formData: mockFormData
+        })
+      }));
+    });
+
+    it('handles API error', async () => {
+      const mockFormData = {
+        name: 'Test User',
+        company: 'Test Co',
+        email: 'test@example.com',
+        sector: 'Test Sector',
+        requirements: 'Test Requirements'
+      };
+
+      // Mock failed fetch
+      vi.mocked(fetch).mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ error: 'Failed to generate summary' }),
+      } as Response);
+
+      await expect(generateLeadSummary(mockFormData)).rejects.toThrow('Failed to generate summary');
+    });
+
+    it('handles network error', async () => {
+        const mockFormData = {
+            name: 'Test User',
+            company: 'Test Co',
+            email: 'test@example.com',
+            sector: 'Test Sector',
+            requirements: 'Test Requirements'
+        };
+
+        // Mock network error
+        vi.mocked(fetch).mockRejectedValueOnce(new Error('Network Error'));
+
+        await expect(generateLeadSummary(mockFormData)).rejects.toThrow('Network Error');
+    });
+  });
 });

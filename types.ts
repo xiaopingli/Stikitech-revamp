@@ -17,6 +17,12 @@ export interface Partner {
   tier: string;
 }
 
+export interface PartnerProduct {
+  name: string;
+  type: string;
+  description: string;
+}
+
 export interface Service {
   id: string;
   name: string;
@@ -53,5 +59,12 @@ export interface ContactInfo {
     line1: string;
     line2: string;
   };
-  whatsapp: string;
+}
+
+export interface LeadFormData {
+  name: string;
+  company: string;
+  email: string;
+  sector: string;
+  requirements: string;
 }

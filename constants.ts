@@ -1,38 +1,55 @@
 
-import type { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo } from './types.ts';
+import type { Solution, Partner, Service, SocialLink, FooterLink, ContactInfo, PartnerProduct } from './types.ts';
 
 export const BRAND_NAME = "STIKITECH";
 
 export const FOOTER_DESCRIPTION = "The standard in enterprise security distribution. Empowering integrators through technical excellence and unified technology stacks.";
 
+export const HOME_HERO_IMAGE = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920";
+
+export const PLACEHOLDER_LINK = '#';
+
 export const SOCIAL_LINKS: SocialLink[] = [
-  { name: 'LinkedIn', url: '#' },
-  { name: 'Twitter', url: '#' },
-  { name: 'YouTube', url: '#' }
+  { name: 'LinkedIn', url: PLACEHOLDER_LINK },
+  { name: 'Twitter', url: PLACEHOLDER_LINK },
+  { name: 'YouTube', url: PLACEHOLDER_LINK }
 ];
 
 export const DISTRIBUTION_LINKS: FooterLink[] = [
-  { name: 'Video Surveillance', url: '#' },
-  { name: 'Managed Networking', url: '#' },
-  { name: 'Enterprise Storage', url: '#' },
-  { name: 'LPR Systems', url: '#' }
+  { name: 'Video Surveillance', url: PLACEHOLDER_LINK },
+  { name: 'Managed Networking', url: PLACEHOLDER_LINK },
+  { name: 'Enterprise Storage', url: PLACEHOLDER_LINK },
+  { name: 'LPR Systems', url: PLACEHOLDER_LINK }
 ];
 
 export const LEGAL_LINKS: FooterLink[] = [
-  { name: 'Privacy Policy', url: '#' },
-  { name: 'Terms of Service', url: '#' }
+  { name: 'Privacy Policy', url: PLACEHOLDER_LINK },
+  { name: 'Terms of Service', url: PLACEHOLDER_LINK }
 ];
 
 export const CONTACT_INFO: ContactInfo = {
   salesEmail: 'sales@stikitech.com',
   supportEmail: 'support@stikitech.com',
   phone: '+1 (555) STIKI-TECH',
-  whatsapp: '6512345678',
+  whatsapp: (import.meta as any).env?.VITE_WHATSAPP_NUMBER || "6512345678",
   address: {
     line1: '123 Enterprise Way, Suite 400',
     line2: 'San Francisco, CA 94105'
+  }
+};
+
+export const FOOTER_CONTENT = {
+  sections: {
+    distribution: "Distribution",
+    inquiries: "Inquiries",
+    globalHQ: "Global HQ"
   },
-  whatsapp: (import.meta as any).env?.VITE_WHATSAPP_NUMBER || "6512345678"
+  contactLabels: {
+    sales: "Sales:",
+    support: "Support:",
+    office: "Office:"
+  },
+  copyright: "INC. ALL RIGHTS RESERVED."
 };
 
 export const INDUSTRY_SECTORS = [
@@ -123,4 +140,17 @@ export const SERVICES: Service[] = [
       'Software Upgrade Management'
     ]
   }
+];
+
+export const PARTNER_PAGE_PRODUCTS: PartnerProduct[] = [
+  { name: 'Omnicast™', type: 'Video Management', description: 'Enterprise IP video system that scales to thousands of cameras seamlessly.' },
+  { name: 'Synergis™', type: 'Access Control', description: 'IP-based access control that ensures hardware independence and future-proofing.' },
+  { name: 'AutoVu™', type: 'LPR & ALPR', description: 'Automatic license plate recognition for parking management and city-wide safety.' }
+];
+
+export const PARTNER_PAGE_SERVICES: string[] = [
+  'Configuration Validation',
+  'Advanced Field Commissioning',
+  'Custom Plug-in Development',
+  'End-User Operator Training'
 ];

@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
@@ -10,6 +11,7 @@ const Home = lazy(() => import('./pages/Home.tsx'));
 const PartnerPage = lazy(() => import('./pages/PartnerPage.tsx'));
 const Solutions = lazy(() => import('./pages/Solutions.tsx'));
 const Services = lazy(() => import('./pages/Services.tsx'));
+const Contact = lazy(() => import('./pages/Contact.tsx'));
 
 const App: React.FC = () => {
   return (
@@ -23,6 +25,7 @@ const App: React.FC = () => {
               <Route path={PageRoute.SOLUTIONS} element={<Solutions />} />
               <Route path={PageRoute.SERVICES} element={<Services />} />
               <Route path={PageRoute.GENETEC} element={<PartnerPage />} />
+              <Route path={PageRoute.CONTACT} element={<Contact />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </Suspense>
